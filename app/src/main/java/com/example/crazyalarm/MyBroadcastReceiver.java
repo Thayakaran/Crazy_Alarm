@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 
-import static com.example.alarmsystem.App.CHANNEL_1_ID;
+import static com.example.crazyalarm.App.CHANNEL_1_ID;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
 

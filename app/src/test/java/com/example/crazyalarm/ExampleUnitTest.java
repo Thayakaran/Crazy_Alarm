@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 import org.junit.Test;
 

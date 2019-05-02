@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 import android.database.Cursor;
 import android.os.Bundle;

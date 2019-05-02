@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 public class Alarm {
 

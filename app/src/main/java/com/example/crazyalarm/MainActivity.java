@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -33,7 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.alarmsystem.App.CHANNEL_1_ID;
+import static com.example.crazyalarm.App.CHANNEL_1_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         myDb = new DatabaseHelper(this);
-
 
         addAlarm = (ImageButton) findViewById(R.id.btnAddAlarm);
 
@@ -198,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         boolean isInserted = myDb.insertData(mName.getText().toString(),mTimePicker.getCurrentHour().toString()+":"+mTimePicker.getCurrentMinute().toString(),mTone.getText().toString());
+//                        Log.d("zzz", get);
                         if(isInserted == true){
                             Toast.makeText(MainActivity.this, "Alarm added Successfully", Toast.LENGTH_LONG).show();
                             showAlarms();
