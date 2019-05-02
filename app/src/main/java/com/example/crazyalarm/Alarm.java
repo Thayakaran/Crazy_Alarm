@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 public class Alarm {
 
@@ -13,3 +13,4 @@ public class Alarm {
     public String getName(){return name;}
 
 }
+// Thaya updated new branch

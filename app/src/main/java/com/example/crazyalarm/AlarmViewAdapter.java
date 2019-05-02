@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

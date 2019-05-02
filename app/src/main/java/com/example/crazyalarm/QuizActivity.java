@@ -1,4 +1,4 @@
-package com.example.alarmsystem;
+package com.example.crazyalarm;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
