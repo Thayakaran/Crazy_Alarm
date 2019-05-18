@@ -125,7 +125,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
 
     @Override
     public AlarmViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.single_alarm_card, parent, false);
         ViewHolder viewHolder = new ViewHolder(contactView,context);
