@@ -25,29 +25,16 @@
         android:id="@+id/tvQstn"
         android:layout_width="311dp"
         android:layout_height="85dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:text="What is the 14th letter of alphabet ?"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/textViewNum"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="78dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="8dp"
-        android:background="@android:color/holo_green_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/tvQstn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvQstn"
-        app:layout_constraintVertical_bias="0.584"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
     <RadioGroup
         android:id="@+id/radioGroupQstn"
@@ -61,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvQstn">
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/a1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -72,7 +59,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/a2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -83,7 +70,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/a3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -94,7 +81,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/radioButton1"
+            android:id="@+id/a4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -144,4 +131,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnStop" />
+
+    <TextView
+        android:id="@+id/textViewNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvQstn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvQstn" />
 </android.support.constraint.ConstraintLayout>

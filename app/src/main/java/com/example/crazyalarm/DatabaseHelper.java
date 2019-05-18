@@ -14,6 +14,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String COL_2 = "NAME";
     public static final String COL_3 = "TIME";
     public static final String COL_4 = "TONE";
+    public static final String COL_5 = "COUNT";
+    public static final String COL_6 = "STATUS";
 
     public DatabaseHelper(Context context) {
         super(context,Database,null,1);
@@ -21,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE "+Table+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,TIME TEXT,TONE TEXT)");
+            db.execSQL("CREATE TABLE "+Table+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,TIME TEXT,TONE TEXT,COUNT TEXT,STATUS TEXT)");
     }
 
     @Override
@@ -30,12 +32,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public boolean insertData(String name, String time, String tone){
+    public boolean insertData(String name, String time, String tone, String count, String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, name);
         contentValues.put(COL_3, time);
         contentValues.put(COL_4, tone);
+        contentValues.put(COL_5, count);
+        contentValues.put(COL_6,status);
         long result = db.insert(Table,null,contentValues);
         db.close();
         if(result == -1){
@@ -51,6 +55,50 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+Table, null);
         return res;
+    }
+
+    public Cursor getAllOnAlarms(String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from alarm_table where STATUS = ? ", new String[] {status});
+        return res;
+    }
+
+    public Integer deleteData(String id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(Table, "ID = ?", new String[] {id});
+    }
+
+    public boolean updateAlarmStatus(String id , String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_5,status);
+        int result = db.update(Table , contentValues,"ID = ?",new String[] {id});
+        if(result > 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public boolean updateAlarm(String id , String name, String time, String tone, String count,String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_2, name);
+        contentValues.put(COL_3, time);
+        contentValues.put(COL_4, tone);
+        contentValues.put(COL_5, count);
+        contentValues.put(COL_6,status);
+        int result = db.update(Table , contentValues,"ID = ?",new String[] {id});
+        if(result > 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 
 }

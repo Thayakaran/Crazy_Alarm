@@ -15,6 +15,7 @@ public class ViewAlarms extends AppCompatActivity {
 
     RecyclerView recyclerView;
     DatabaseHelper myDB;
+    AlarmViewAdapter.OnItemClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +30,12 @@ public class ViewAlarms extends AppCompatActivity {
         int i = 0;
         if(data.getCount() != 0){
             while(data.moveToNext()){
-                Alarm alarms = new Alarm(data.getString(2),data.getString(1));
+                Alarm alarms = new Alarm(data.getString(2),data.getString(1),data.getString(0),data.getString(3),data.getString(4),data.getString(5));
                 alarmList.add(i,alarms);
                 i++;
             }
             Log.d("list", alarmList.toString());
-            AlarmViewAdapter adapter = new AlarmViewAdapter(alarmList);
+            AlarmViewAdapter adapter = new AlarmViewAdapter(alarmList, listener);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager((new LinearLayoutManager(this)));
         }else{
