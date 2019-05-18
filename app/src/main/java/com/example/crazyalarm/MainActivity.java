@@ -317,8 +317,11 @@ public class MainActivity extends AppCompatActivity {
             mhead.setText("UPDATE ALARM");
             mAdd.setText("Update");
             mName.setText(name);
-            mTimePicker.setCurrentHour(Integer.valueOf(separated[0]));
-            mTimePicker.setCurrentMinute(Integer.valueOf(separated[1]));
+            String hr = separated[0].replaceAll("^0+","").replaceAll(" ","");
+            String min = separated[1].replaceAll("^0+","").replaceAll(" ","").replaceAll("[^0-9]", "");
+            Log.e("hour",hr);
+            mTimePicker.setCurrentHour(Integer.valueOf(hr));
+            mTimePicker.setCurrentMinute(Integer.valueOf(min));
             mTone.setText(tone);
             mNumberPicker.setValue(Integer.parseInt(count));
 
