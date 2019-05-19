@@ -6,10 +6,9 @@ package com.example.crazyalarm;
 public class AudioPlay {
 
     public static MediaPlayer mediaPlayer;
+    public static boolean isplayingAudio = false;
 
-    public static boolean isplayingAudio=false;
-
-
+    /** play audio method implementation **/
     public static void playAudio(Context c, int id){
 
         mediaPlayer = MediaPlayer.create(c,id);
@@ -17,6 +16,8 @@ public class AudioPlay {
         mediaPlayer.setLooping(true);
         isplayingAudio=true;
     }
+
+    /** stop audio method implementation **/
     public static void stopAudio(){
         mediaPlayer.stop();
         isplayingAudio=false;

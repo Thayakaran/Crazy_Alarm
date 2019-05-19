@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
@@ -22,17 +21,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         super(context,Database,null,1);
     }
 
+    /** onCreate method which create new table **/
     @Override
     public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE "+Table+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,TIME TEXT,TONE TEXT,COUNT TEXT,STATUS TEXT)");
     }
 
+    /** onUpgrade method which check weather table is existing or not, if exist it drop exist table **/
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+Table);
         onCreate(db);
     }
 
+    /** insert method to insert new alarm details **/
     public boolean insertData(String name, String time, String tone, String count, String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -52,24 +54,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
+    /** getting all alarm details from the database **/
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+Table, null);
         return res;
     }
 
+    /** getting all alarm details which are in on state **/
     public Cursor getAllOnAlarms(String status){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from alarm_table where STATUS = ? ", new String[] {status});
         return res;
     }
 
+    /** deleting alarm details from the database **/
     public Integer deleteData(String id){
 
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(Table, "ID = ?", new String[] {id});
     }
 
+    /** update alarm details only for status update **/
     public boolean updateAlarmStatus(String id , String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -81,9 +87,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         else {
             return false;
         }
-
     }
 
+    /** update alarm details **/
     public boolean updateAlarm(String id , String name, String time, String tone, String count,String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -99,7 +105,5 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         else {
             return false;
         }
-
     }
-
 }

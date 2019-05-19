@@ -14,6 +14,8 @@ public class App extends Application {
         super.onCreate();
         createNotificationChannel();
     }
+
+    /** creating notification channel to be used for multi purpose **/
     public void createNotificationChannel(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             CharSequence name = "channel 1";

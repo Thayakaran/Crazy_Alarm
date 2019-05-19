@@ -9,6 +9,7 @@ public class Alarm {
     private String tone;
     private String status;
 
+    /** constructor **/
     public Alarm(String mTime, String mName, String mId, String mTone,String mCount,String mStatus){
         time = mTime;
         name = mName;
@@ -17,6 +18,8 @@ public class Alarm {
         count = mCount;
         status = mStatus;
     }
+
+    /** getters **/
     public String getTime(){return time;}
     public String getName(){return name;}
     public String getId(){return id;}
@@ -25,4 +28,3 @@ public class Alarm {
     public String getStatus(){return status;}
 
 }
-// Thaya updated new branch

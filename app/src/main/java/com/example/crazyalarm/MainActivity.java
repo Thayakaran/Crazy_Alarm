@@ -1,28 +1,20 @@
 package com.example.crazyalarm;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,20 +26,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.crazyalarm.App.CHANNEL_1_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     TextView alarmTime, mhead, alarmName, testTxt;
     Button mTone, mAdd, mCancel, tSelect, tCancel;
     RadioGroup radioGroup1;
-
     RecyclerView recyclerView;
 
     List<Alarm> alarmList = new ArrayList<>();
@@ -86,20 +69,19 @@ public class MainActivity extends AppCompatActivity {
 
         addAlarm = (ImageButton) findViewById(R.id.btnAddAlarm);
 
-        // creating alert dialog popup for adding alarm
+        /** creating alert dialog popup for adding alarm **/
         mBuilder = new AlertDialog.Builder(MainActivity.this);
         mView = getLayoutInflater().inflate(R.layout.add_alarm, null);
         mBuilder.setView(mView);
         mDialog = mBuilder.create();
 
-        // creating alert dialog popup for selecting tone
+        /** creating alert dialog popup for selecting tone **/
         tBuilder = new AlertDialog.Builder(MainActivity.this);
         tView = getLayoutInflater().inflate(R.layout.select_tone, null);
         tBuilder.setView(tView);
         tDialog = tBuilder.create();
 
         mTimePicker = (TimePicker) mView.findViewById(R.id.timePicker);
-//        mTimePicker.setIs24HourView(true);
         mNumberPicker = (NumberPicker) mView.findViewById(R.id.numberPicker);
         mNumberPicker.setMinValue(1);
         mNumberPicker.setMaxValue(10);
@@ -120,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        /** registering a broadcast intent from alarm view adaptor for switch status **/
         registerReceiver(broadcastReceiver, new IntentFilter("Alarm_Status_Intent"));
 
         /** calling set alarm method **/
@@ -128,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         showAlarms();
 
 
-        ////////////////////////////////////////////////////////////////////
         /** + button click action to add new alarm **/
         addAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                                //switching playing tone for the selection
+                                /** switching playing tone for the selection **/
                                 switch (checkedId) {
                                     case R.id.btnRad1:
                                         if(AudioPlay.isplayingAudio){
@@ -235,11 +217,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                /** adding the inputed data for new alarm **/
+                /** adding the inputted data for new alarm **/
                 mAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        Log.e("timePick",mTimePicker.getCurrentHour().toString());
+                        Log.e("timePick",mTimePicker.getCurrentHour().toString());
                         int TpHour = mTimePicker.getCurrentHour(); // hourOfDay
                         int TpMinute =  mTimePicker.getCurrentMinute(); // Minute
                         String getAMPMValue = "AM";
@@ -266,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
                             showAlarms();
                             setAlarm();
-                            mDialog.dismiss(); // dismissal of add alarm interface
+                            mDialog.dismiss(); /** dismissal of add alarm interface **/
                         }
                         /** show alert when failure insertion **/
                         else {
@@ -308,11 +290,11 @@ public class MainActivity extends AppCompatActivity {
                 pendingIntent.cancel();
                 alarmManager.cancel(pendingIntent);
 
-                showAlarms();
+                showAlarms(); /** update list soon after delete **/
                 Toast.makeText(MainActivity.this, "Alarm deleted", Toast.LENGTH_SHORT).show();
 
-                /** Snackbar for undo deleted item **/
-                Snackbar.make(recyclerView, "alarm deleted.",Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                /** Snack bar for undo deleted item **/
+                Snackbar.make(recyclerView, "Alarm deleted.",Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String[] separated = stime.split(":");
@@ -320,20 +302,18 @@ public class MainActivity extends AppCompatActivity {
                         String hr = separated[0].replaceAll("^0+","").replaceAll(" ","");
                         String min = separated[1].replaceAll("^0+","").replaceAll(" ","").replaceAll("[^0-9]", "");
                         String getAMPM = stime.replaceAll("[^A-Z]","");
-
                         if(getAMPM.equals("PM"))
                         {
                             if(Integer.valueOf(hr)!=12) {
                                 hr = String.valueOf(Integer.valueOf(hr)+12);
                             }
                         }
-
                         Log.e("hour",hr);
-
                         stime = hr+":"+min;
                         myDb.insertData(sname,stime,stone,scount,"0");
-                        showAlarms();
-                        setAlarm();
+
+                        showAlarms(); /** show alarm list after undo **/
+                        setAlarm(); /** set alarm for the undone alarm **/
                     }
                 }).show();
 
@@ -354,11 +334,11 @@ public class MainActivity extends AppCompatActivity {
         if(method != null && method.equals("show")){
             String[] separated = time.split(":");
 
-//                showDialog(id,name,time);
             /** adding previous values to updating interface **/
             mhead.setText("EDIT ALARM");
             mAdd.setText("UPDATE");
             mName.setText(name);
+            /** separating time data **/
             String hr = separated[0].replaceAll("^0+","").replaceAll(" ","");
             String min = separated[1].replaceAll("^0+","").replaceAll(" ","").replaceAll("[^0-9]", "");
             String getAmPm = time.replaceAll("[^A-Z]","");
@@ -369,7 +349,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             Log.e("hour",hr);
-
             mTimePicker.setIs24HourView(false);
             mTimePicker.setCurrentHour(Integer.valueOf(hr));
             mTimePicker.setCurrentMinute(Integer.valueOf(min));
@@ -446,10 +425,10 @@ public class MainActivity extends AppCompatActivity {
                     tSelect.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            // get selected radio button from radioGroup
+                            /** get selected radio button from radioGroup **/
                             int selectedId = radioGroup1.getCheckedRadioButtonId();
 
-                            // find the radiobutton by returned id
+                            /** find the radiobutton by returned id **/
                             RadioButton radioButton = (RadioButton) tView.findViewById(selectedId);
 
                             Button tone = (Button) mView.findViewById(R.id.btnTone);
@@ -457,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                             if(AudioPlay.isplayingAudio){
                                 AudioPlay.stopAudio();
                             }
-                            tDialog.dismiss();
+                            tDialog.dismiss(); /** dismiss the select tone interface **/
                         }
                     });
 
@@ -467,12 +446,13 @@ public class MainActivity extends AppCompatActivity {
                             if(AudioPlay.isplayingAudio){
                                 AudioPlay.stopAudio();
                             }
-                            tDialog.dismiss();
+                            tDialog.dismiss(); /** dismiss the select tone interface **/
                         }
                     });
                 }
             });
 
+            /** adding the updated alarm **/
             mAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -500,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
 
                         showAlarms();
                         setAlarm();
-                        mDialog.dismiss();
+                        mDialog.dismiss(); /** dismiss the update alarm interface **/
                     }
                     else {
                         Toast.makeText(MainActivity.this, "Failed to update Alarm", Toast.LENGTH_LONG).show();
@@ -511,7 +491,7 @@ public class MainActivity extends AppCompatActivity {
             mCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mDialog.dismiss();
+                    mDialog.dismiss(); /** dismiss the update alarm interface **/
                     Toast.makeText(MainActivity.this, "cancel clicked", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -535,11 +515,10 @@ public class MainActivity extends AppCompatActivity {
         String count;
         String status;
         String[] separatedTime = new String[10];
-//        int x = 0;
-
 
         Date date = new Date();
 
+        /** for each row of alarm in database **/
         while (res.moveToNext()){
             id = res.getString(0);
             name = res.getString(1);
@@ -597,6 +576,7 @@ public class MainActivity extends AppCompatActivity {
 
         int i = 0;
         if(data.getCount() != 0){
+            /** for each row of alarm in database **/
             while(data.moveToNext()){
 
                 separatedDbTime = data.getString(2).split(":");
@@ -620,7 +600,7 @@ public class MainActivity extends AppCompatActivity {
                 String time = dbHourString+" : "+dbMinuteString+" "+getAMPMValue;
 
                 Alarm alarms = new Alarm(time,data.getString(1),data.getString(0),data.getString(3),data.getString(4),data.getString(5));
-                alarmList.add(i,alarms);
+                alarmList.add(i,alarms); /** adding to alarm list **/
                 i++;
 
 
@@ -635,6 +615,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** getting a broadcast from AlarmViewAdapter for status change **/
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -646,10 +627,10 @@ public class MainActivity extends AppCompatActivity {
 
             boolean isUpdated = myDb.updateAlarmStatus(ListId,Status);
             if(isUpdated && Status.equals("1")){
-                setAlarm();
+                setAlarm(); /** setting alarm when status ON **/
             }
             else {
-                Log.e("Check status update", "failed");
+                /** removing the created pending intent if status is OFF **/
                 Intent BroadcastIntent = new Intent(MainActivity.this,MyBroadcastReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, Integer.parseInt(ListId),BroadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent.cancel();
@@ -662,6 +643,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        /** unregister the receiver when view destroyed **/
         unregisterReceiver(broadcastReceiver);
     }
 

@@ -1,7 +1,5 @@
 package com.example.crazyalarm;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+
 
 public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.ViewHolder> {
 
@@ -33,6 +29,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
         mlistener = listener;
     }
 
+    /** binding view holder for alarm adapter **/
     @Override
     public void onBindViewHolder(AlarmViewAdapter.ViewHolder viewHolder, int position) {
         Alarm alarm = mAlarm.get(position);
@@ -53,7 +50,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
         viewHolder.bind(alarm,mlistener,context);
     }
 
-
+    /** view holder class **/
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView time;
@@ -61,7 +58,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
         public Switch status;
         MainActivity main;
 
-
+        /** view holder constructor **/
         public ViewHolder(final View itemView, final Context context) {
             super(itemView);
             main = new MainActivity();
@@ -71,6 +68,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
             myDb = new DatabaseHelper(context);
         }
 
+        /** binding alarm to view holder **/
         public void bind(final Alarm alarm , final OnItemClickListener listener , final Context context){
             status.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,10 +97,11 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
                 }
             });
 
+            /** alarm list click event, for updating alarm **/
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("cardview clicked","edddd");
+                    Log.e("cardview clicked","clicked");
                     String id  = alarm.getId();
                     String time = alarm.getTime();
                     String name = alarm.getName();
@@ -124,12 +123,13 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
 
     }
 
+    /** alarm view adapter **/
     public AlarmViewAdapter(List<Alarm> alarms, OnItemClickListener listener) {
         mAlarm = alarms;
         mlistener = listener;
     }
 
-
+    /** view holder on crete **/
     @Override
     public AlarmViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
@@ -139,9 +139,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
         return viewHolder;
     }
 
-
-
-
+    /** get adapter item count **/
     @Override
     public int getItemCount() {
         return mAlarm.size();
