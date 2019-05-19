@@ -1,14 +1,21 @@
+/** *************************************************************** **/
+/** MyBroadcastReceiver
+/**
+/** broadcast receiver class for receiving notification broadcasts, even the app is terminated.
+/*******************************************************************/
 package com.example.crazyalarm;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 
@@ -16,25 +23,28 @@ import static com.example.crazyalarm.App.CHANNEL_1_ID;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
 
-    NotificationManagerCompat notificationManager;
-
+    /** broadcast on receive method for notification**/
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent BroadcastIntent) {
 
-        context.sendBroadcast(new Intent("Alarm_Notification_Intent"));
-
+        /** enabling vibrator service for notification **/
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(2000);
 
+        /** get the quize count from the broadcast  intent **/
+        String count = BroadcastIntent.getExtras().getString("count");
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /** displayNotification() method call for received alarm intent with quiz count as parameters**/
+        displayNotification(context,count);
 
-        String name = intent.getExtras().getString("name");
-        String tone = intent.getExtras().getString("tone");
+        /** get name and tone of alarm intent **/
+        String name = BroadcastIntent.getExtras().getString("name");
+        String tone = BroadcastIntent.getExtras().getString("tone");
+
+        /** setting up the ring tone id for received alarm broadcast **/
         int ringtoneId = R.raw.tone_chennai_funny;;
-
-        Log.d("check-intent-name", name);
-        Log.d("check-intent-tone", tone);
+        Log.d("BroadcastIntent-name", name);
+        Log.d("BroadcastIntent-tone", tone);
 
         if(tone.equals("Select Alarm Tone")){
             ringtoneId = R.raw.tone_chennai_funny;
@@ -64,37 +74,49 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             ringtoneId = R.raw.tone_pachainiramae;
         }
 
+        /** check weather any audio playing and turn it of if playing **/
         if(AudioPlay.isplayingAudio){
             AudioPlay.stopAudio();
         }
+        /** calling for the audio play method with the ring tone id **/
         AudioPlay.playAudio(context,ringtoneId);
 
         if(AudioPlay.isplayingAudio){
             Log.d("checkMedia", "playing");
         }
 
-
-
     }
-/////////////********* failed / but called from main ********/////////////////
-    public void displayNotification(Context context){
 
-        PendingIntent actionIntent = PendingIntent.getBroadcast(context,0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+    /** display notification method implementation with passing quiz count **/
+    public void displayNotification( Context context, String quizCount){
 
+        Intent quizActivityIntent = new Intent(context, QuizActivity.class);
+        quizActivityIntent.putExtra("count", quizCount);
+        PendingIntent quizIntent = PendingIntent.getActivity(context,0, quizActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.clock_icon);
+        /** Assign big picture notification **/
+        NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
+        bpStyle.bigPicture(BitmapFactory.decodeResource(context.getResources(), R.drawable.quiz_icon)).build();
+
+        /** creating notification **/
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_alarm)
-                .setContentTitle("Simple Notification")
-                .setContentText("This is simple notification-------")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setColor(Color.RED)
-                .setContentIntent(actionIntent)
-                .setAutoCancel(true)
-                .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
+                .setContentTitle("Alarm ON")
+                .setContentText("SOLVE QUIZ TO STOP ALARM ")
+                .setLargeIcon(largeIcon)
+                .setStyle(bpStyle)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setFullScreenIntent(quizIntent, true)
+                .setCategory(Notification.CATEGORY_ALARM)
+                .setColor(Color.GREEN)
+                .setOngoing(true)
+                .setAutoCancel(false)
                 .build();
 
-
-        notificationManager.notify(1,notification);
+        /** publishing notification using notification manager **/
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(01,notification);
     }
 
 }

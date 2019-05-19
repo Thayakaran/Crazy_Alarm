@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AlarmSystem</string>
+    <string name="app_name">Crazy</string>
     <string name="new_alarm">NEW ALARM</string>
     <string name="enter_alarm_name">Enter Alarm Name</string>
     <string name="tone">Tone :</string>
