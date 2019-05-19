@@ -1,5 +1,7 @@
 package com.example.crazyalarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.ViewHolder> {
@@ -75,19 +79,22 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.View
 
                     if(position != RecyclerView.NO_POSITION){
 
+                        int statusNum;
                         if(status.isChecked()){
-                            boolean out =  myDb.updateAlarmStatus(alarm.getId(),"1");
+                            statusNum = 1;
 
                             Log.e("switch","checked on ");
-                            Log.e("switch", String.valueOf(out));
 
                         }else {
-                            boolean out =  myDb.updateAlarmStatus(alarm.getId(),"0");
+                            statusNum = 0;
 
                             Log.e("switch","checked off");
-                            Log.e("switch", String.valueOf(out));
 
                         }
+                        Intent statusIntent = new Intent("Alarm_Status_Intent");
+                        statusIntent.putExtra("listId",alarm.getId());
+                        statusIntent.putExtra("status",String.valueOf(statusNum));
+                        context.sendBroadcast(statusIntent);
                     }
                 }
             });

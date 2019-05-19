@@ -25,6 +25,9 @@
         <activity android:name="com.example.crazyalarm.ViewAlarms"></activity>
 
         <receiver android:name="com.example.crazyalarm.MyBroadcastReceiver" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

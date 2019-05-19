@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
@@ -72,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public boolean updateAlarmStatus(String id , String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_5,status);
+        contentValues.put(COL_6,status);
         int result = db.update(Table , contentValues,"ID = ?",new String[] {id});
         if(result > 0){
             return true;
