@@ -1,3 +1,8 @@
+/** *****************************************************************/
+/** DatabaseHelper
+ /**
+ /** Database actions, CREATE, INSERT, UPDATE, DELETE
+ /*******************************************************************/
 package com.example.crazyalarm;
 
 import android.content.ContentValues;

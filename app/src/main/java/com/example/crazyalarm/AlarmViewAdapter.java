@@ -1,3 +1,8 @@
+/** *************************************************************** **/
+/** AlarmViewAdapter
+ /**
+ /** Alarm view adapter handler, handling view alarm interface actions
+ /*******************************************************************/
 package com.example.crazyalarm;
 
 import android.content.Context;

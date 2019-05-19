@@ -1,3 +1,8 @@
+ /** *************************************************************** **/
+ /** QuizActivity
+ /**
+ /** activity for generating quize, when notification comes.
+ /*******************************************************************/
 package com.example.crazyalarm;
 
 import android.app.NotificationManager;

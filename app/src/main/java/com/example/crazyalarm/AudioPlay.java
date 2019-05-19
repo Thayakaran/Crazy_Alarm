@@ -1,3 +1,8 @@
+/** *************************************************************** **/
+/** AudioPlay
+ /**
+ /** Audio play class for playing and stopping alarms.
+ /*******************************************************************/
 package com.example.crazyalarm;
 
         import android.content.Context;

@@ -1,3 +1,8 @@
+/** *************************************************************** **/
+/** ViewAlarms
+ /**
+ /** view alarm from recycler views.
+ /*******************************************************************/
 package com.example.crazyalarm;
 
 import android.database.Cursor;

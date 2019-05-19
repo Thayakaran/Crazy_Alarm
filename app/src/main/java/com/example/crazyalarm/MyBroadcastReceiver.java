@@ -1,3 +1,8 @@
+/** *************************************************************** **/
+/** MyBroadcastReceiver
+/**
+/** broadcast receiver class for receiving notification broadcasts, even the app is terminated.
+/*******************************************************************/
 package com.example.crazyalarm;
 
 import android.app.Notification;

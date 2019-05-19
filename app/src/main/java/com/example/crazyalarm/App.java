@@ -1,3 +1,8 @@
+/** *************************************************************** **/
+/** App
+ /**
+ /** App class to create notification channel
+ /*******************************************************************/
 package com.example.crazyalarm;
 
 import android.app.Application;

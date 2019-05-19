@@ -1,3 +1,8 @@
+/** *************************************************************** **/
+/** MainActivity
+/**
+/** Main Activity of the application, most of the important implementation comes here.
+/*******************************************************************/
 package com.example.crazyalarm;
 
 import android.app.AlarmManager;
