@@ -14,15 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.crazyalarm.QuizActivity"></activity>
-        <activity android:name="com.example.crazyalarm.MainActivity">
+        <activity android:name="com.example.crazyalarm.QuizActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="com.example.crazyalarm.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.crazyalarm.ViewAlarms"></activity>
+        <activity android:name="com.example.crazyalarm.ViewAlarms"
+            android:screenOrientation="portrait"></activity>
 
         <receiver android:name="com.example.crazyalarm.MyBroadcastReceiver" />
         <meta-data
