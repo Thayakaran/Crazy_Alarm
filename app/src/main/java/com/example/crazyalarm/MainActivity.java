@@ -597,6 +597,9 @@ public class MainActivity extends AppCompatActivity {
                         dbHour = dbHour-12;
                     }
                 }
+                else if(dbHour==0){
+                    dbHour = 12;
+                }
 
                 /** decimal formatting to display clearly **/
                 DecimalFormat formatter = new DecimalFormat("00");
